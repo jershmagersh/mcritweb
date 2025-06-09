@@ -403,3 +403,17 @@ def search():
         query=query,
         search_types=types,
     )
+
+@bp.route('/functions/<int(signed=True):function_id>/comment', methods=['POST'])
+@contributor_required
+@mcrit_server_required
+def modify_function_comment(function_id):
+    if request.method == 'POST':
+        client = McritClient(mcrit_server=get_server_url(), apitoken=get_server_token(), username=get_username())
+        comment = request.form.get('function_comment', '')
+        try:
+            client.modifyFunction(function_id, function_comment=comment)
+            flash("Function comment updated successfully.", category="success")
+        except Exception as e:
+            flash(f"Failed to update function comment: {str(e)}", category="error")
+    return redirect(url_for('explore.function_by_id', function_id=function_id))

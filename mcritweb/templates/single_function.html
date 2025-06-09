@@ -29,6 +29,21 @@ Function: {{ function_id }}
     {% if entry is not none %}
       {{ function_column_table(("Function Info", entry, sample_entry, pichash_match_summary)) }}
 
+      <!-- Add comment section -->
+      <div class="card mt-3">
+        <div class="card-header">
+          <h5>Function Comment</h5>
+        </div>
+        <div class="card-body">
+          <form id="commentForm" method="POST" action="{{ url_for('explore.modify_function_comment', function_id=function_id) }}">
+            <div class="form-group">
+              <textarea class="form-control" id="function_comment" name="function_comment" rows="3">{{ entry.function_comment }}</textarea>
+            </div>
+            <button type="submit" class="btn btn-primary mt-2">Save Comment</button>
+          </form>
+        </div>
+      </div>
+
       <script type="text/javascript">
       window.onload = function() {
           var js_function_id = {{ function_id }};
